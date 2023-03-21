@@ -1,6 +1,7 @@
 const Produs = require("../schemas/Produse");
 const mongoose = require("mongoose");
-const ObjectId = mongoose.Types.ObjectId;
+const fs = require("fs");
+const path = require("path");
 
 const handlePostProduse = async (req, res) => {
   const nume = req.body.nume;
@@ -40,20 +41,45 @@ const handleGetProduse = async (req, res) => {
   }
 };
 
+const getProductById = async (id) => {
+  try {
+    const produs = await Produs.findById(id);
+    if (!produs) {
+      return "Nu am gasit produsul";
+    }
+    return produs.nume;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const deletePhoto = async (imgName) => {
+  const filePath = path.join(__dirname, "..", "uploads", imgName);
+  if (fs.existsSync(filePath)) {
+    try {
+      await fs.unlink(filePath, (err) => {
+        console.log(err);
+      });
+      console.log("Poza a fost stearsa");
+    } catch (err) {
+      console.log(err);
+    }
+  } else {
+    console.log("Nu exista poza");
+  }
+};
+
 const handleDeleteProdus = async (req, res) => {
   const id = req.params.id;
-  const objectId = new ObjectId(id);
+
   try {
-    const produs = await Produs.findById(objectId, (err, produs) => {
-      if (err) {
-        cpnsole.log(err);
-        return;
-      }
-    });
-    console.log(produs.nume);
+    console.log("ceva");
+    const nume = await getProductById(id);
 
+    await deletePhoto("covrig.jpg");
+    //console.log("ceva");
     await Produs.deleteOne({ _id: id });
-
+    //console.log("ceva");
     res.status(200).json({ message: "Produs sters" });
   } catch (error) {
     res.status(500).json({ message: "error" });
