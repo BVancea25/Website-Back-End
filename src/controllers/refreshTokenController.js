@@ -8,10 +8,11 @@ const REFRESH_TOKEN_SECRET =
 
 const handleRefresh = async (req, res) => {
   const cookies = req.cookies;
-  console.log(req);
+  //console.log(req);
   if (!cookies?.jwt) {
     //daca avem cookie-uri verificam daca au proprietatea jwt
-    console.log(cookies);
+    //console.log(cookies);
+    console.log("nu avem cookie");
     return res.sendStatus(401);
   }
 

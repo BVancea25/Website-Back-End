@@ -76,7 +76,7 @@ const handleDeleteProdus = async (req, res) => {
     console.log("ceva");
     const nume = await getProductById(id);
 
-    await deletePhoto("covrig.jpg");
+    await deletePhoto(nume + ".jpg");
     //console.log("ceva");
     await Produs.deleteOne({ _id: id });
     //console.log("ceva");

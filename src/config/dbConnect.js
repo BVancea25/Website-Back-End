@@ -1,14 +1,12 @@
 const mongoose = require("mongoose");
+const { DATA_BASE_URL } = require("../../Variables");
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(
-      "mongodb+srv://admin:nerfnerf2@cluster0.cujofjz.mongodb.net/?retryWrites=true&w=majority",
-      {
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-      }
-    );
+    await mongoose.connect(DATA_BASE_URL, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    });
   } catch (err) {
     console.log(err);
   }

@@ -25,7 +25,7 @@ const handleLogin = async (req, res) => {
     const accessToken = jwt.sign(
       { email: foundUser.email },
       ACCESS_TOKEN_SECRET,
-      { expiresIn: "180s" }
+      { expiresIn: "20s" }
     );
 
     const refreshToken = jwt.sign(
@@ -41,7 +41,7 @@ const handleLogin = async (req, res) => {
     const role = foundUser.role;
 
     res.cookie("jwt", refreshToken, {
-      httpOnly: false,
+      httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
 

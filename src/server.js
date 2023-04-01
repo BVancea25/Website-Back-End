@@ -10,6 +10,7 @@ const loginController = require("./controllers/loginController");
 const handleProduse = require("./controllers/produseController");
 const handleRefresh = require("./controllers/refreshTokenController");
 const handleLogout = require("./controllers/logoutController");
+const getLocation = require("./midleware/getLocation");
 
 const verifyJWT = require("./midleware/verifyJWT");
 const cookieParser = require("cookie-parser");
@@ -27,9 +28,9 @@ app.use(express.static("uploads"));
 
 app.use(cookieParser());
 
-app.options("/signin", Cors);
+app.get("/", getLocation);
 
-//app.get("/produse", handleProduse.handleGetProduse);
+app.options("/signin", Cors);
 
 app.post("/signin", registerController.handleNewUser);
 
@@ -37,10 +38,12 @@ app.post("/login", loginController.handleLogin);
 
 app.get("/refresh", handleRefresh.handleRefresh);
 
-app.get("/logout", handleLogout.handleLogout);
+app.post("/logout", handleLogout.handleLogout);
 
-//app.use(verifyJWT);
 app.get("/produse", handleProduse.handleGetProduse);
+
+app.use(verifyJWT);
+app.get("/produseAdmin", handleProduse.handleGetProduse);
 
 app.delete("/produse/:id", handleProduse.handleDeleteProdus);
 
