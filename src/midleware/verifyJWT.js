@@ -4,7 +4,6 @@ const ACCESS_TOKEN_SECRET =
 const jwt = require("jsonwebtoken");
 
 const verifyJWT = (req, res, next) => {
-  console.log(req.headers);
   const loginHeader = req.headers["authorization"];
   if (!loginHeader) return res.sendStatus(401);
 

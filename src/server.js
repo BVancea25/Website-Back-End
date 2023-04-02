@@ -10,7 +10,8 @@ const loginController = require("./controllers/loginController");
 const handleProduse = require("./controllers/produseController");
 const handleRefresh = require("./controllers/refreshTokenController");
 const handleLogout = require("./controllers/logoutController");
-const getLocation = require("./midleware/getLocation");
+const getUserLocation = require("./midleware/getLocation");
+const handleLocation = require("./controllers/locationController");
 
 const verifyJWT = require("./midleware/verifyJWT");
 const cookieParser = require("cookie-parser");
@@ -28,9 +29,11 @@ app.use(express.static("uploads"));
 
 app.use(cookieParser());
 
-app.get("/", getLocation);
+app.get("/locatii", getUserLocation, handleLocation.getClosestLocation);
 
 app.options("/signin", Cors);
+
+//app.get("/", getUserLocation);
 
 app.post("/signin", registerController.handleNewUser);
 
@@ -42,6 +45,8 @@ app.post("/logout", handleLogout.handleLogout);
 
 app.get("/produse", handleProduse.handleGetProduse);
 
+app.post("/locatii", handleLocation.postLocation);
+
 app.use(verifyJWT);
 app.get("/produseAdmin", handleProduse.handleGetProduse);
 
@@ -49,9 +54,7 @@ app.delete("/produse/:id", handleProduse.handleDeleteProdus);
 
 app.post("/produse", upload.single("image"), handleProduse.handlePostProduse);
 
-app.get("/locatii", (req, res) => {
-  res.send({ locatii });
-});
+app.post("/locatii");
 
 mongoose.connection.once("open", () => {
   console.log("Connected to DB");

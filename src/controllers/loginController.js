@@ -1,7 +1,7 @@
 const User = require("../schemas/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-//const cookie=require("cookie-parser");
+
 require("dotenv").config();
 
 const ACCESS_TOKEN_SECRET =
