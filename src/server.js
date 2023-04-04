@@ -12,7 +12,6 @@ const handleRefresh = require("./controllers/refreshTokenController");
 const handleLogout = require("./controllers/logoutController");
 const getUserLocation = require("./midleware/getLocation");
 const handleLocation = require("./controllers/locationController");
-
 const verifyJWT = require("./midleware/verifyJWT");
 const cookieParser = require("cookie-parser");
 const upload = require("./midleware/Multer");
@@ -45,16 +44,19 @@ app.post("/logout", handleLogout.handleLogout);
 
 app.get("/produse", handleProduse.handleGetProduse);
 
+//app.use(verifyJWT);
+
+app.get("/adrese", handleLocation.getAddresses);
+
+app.delete("/locatii/:id", handleLocation.deleteAddress);
+
 app.post("/locatii", handleLocation.postLocation);
 
-app.use(verifyJWT);
 app.get("/produseAdmin", handleProduse.handleGetProduse);
 
 app.delete("/produse/:id", handleProduse.handleDeleteProdus);
 
 app.post("/produse", upload.single("image"), handleProduse.handlePostProduse);
-
-app.post("/locatii");
 
 mongoose.connection.once("open", () => {
   console.log("Connected to DB");
