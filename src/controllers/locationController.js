@@ -3,6 +3,7 @@ const Locations = require("../schemas/Locations");
 const axios = require("axios");
 
 const postLocation = async (req, res) => {
+  console.log(req.body.address);
   const address = req.body.address;
   var lat = "";
   var lng = "";

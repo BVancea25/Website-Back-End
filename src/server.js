@@ -44,7 +44,7 @@ app.post("/logout", handleLogout.handleLogout);
 
 app.get("/produse", handleProduse.handleGetProduse);
 
-//app.use(verifyJWT);
+app.use(verifyJWT);
 
 app.get("/adrese", handleLocation.getAddresses);
 
