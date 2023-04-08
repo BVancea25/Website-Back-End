@@ -12,6 +12,7 @@ const handleRefresh = require("./controllers/refreshTokenController");
 const handleLogout = require("./controllers/logoutController");
 const getUserLocation = require("./midleware/getLocation");
 const handleLocation = require("./controllers/locationController");
+const orderController = require("./controllers/orderController");
 const verifyJWT = require("./midleware/verifyJWT");
 const cookieParser = require("cookie-parser");
 const upload = require("./midleware/Multer");
@@ -43,6 +44,10 @@ app.get("/refresh", handleRefresh.handleRefresh);
 app.post("/logout", handleLogout.handleLogout);
 
 app.get("/produse", handleProduse.handleGetProduse);
+
+app.post("/comanda", orderController.handlePostOrder);
+
+app.get("/comanda", orderController.handleGetOrders);
 
 app.use(verifyJWT);
 
