@@ -3,14 +3,15 @@ const Produs = require("../schemas/Produse");
 
 const handlePostOrder = async (req, res) => {
   const order = req.body;
-  console.log(order.items);
 
   let hasError = false;
 
   if (order.items.length === 0) {
     res.status(400).json({ message: "Order needs products!!!" });
+    hasError = true;
     return;
   }
+
   order.items.forEach((item) => {
     if (hasError === true) {
       return;
@@ -43,7 +44,12 @@ const handlePostOrder = async (req, res) => {
 
 const handleGetOrders = async (req, res) => {
   try {
-    const orders = await Orders.find().populate("userID");
+    const orders = await Orders.find()
+      .populate({
+        path: "userID",
+        select: "email name fname phone_number -_id",
+      })
+      .exec();
     res.status(200).json(orders);
   } catch (err) {
     res.status(500).json({ message: "Server Error" });

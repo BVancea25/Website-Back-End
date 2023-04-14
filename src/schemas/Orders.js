@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const orderSchema = new Schema({
   orderDate: {
-    type: Date,
+    type: String,
     required: true,
   },
   items: [
@@ -14,6 +14,7 @@ const orderSchema = new Schema({
       },
       productName: {
         type: String,
+        required: true,
       },
       quantity: {
         type: Number,
@@ -24,6 +25,25 @@ const orderSchema = new Schema({
   userID: {
     type: Schema.Types.ObjectId,
     ref: "User",
+    required: true,
+  },
+  shippingInfo: {
+    postalCode: {
+      type: Number,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      required: true,
+    },
+  },
+
+  totalPrice: {
+    type: Number,
     required: true,
   },
 });

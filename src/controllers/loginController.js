@@ -40,12 +40,14 @@ const handleLogin = async (req, res) => {
 
     const role = foundUser.role;
 
+    const id = foundUser._id;
+
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    const loginData = { accessToken, role };
+    const loginData = { accessToken, role, id };
 
     res.json(loginData);
   } else {
