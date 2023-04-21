@@ -1,5 +1,5 @@
 const Orders = require("../schemas/Orders");
-const Produs = require("../schemas/Produse");
+const ses = require("../AWS/SES");
 
 const handlePostOrder = async (req, res) => {
   const order = req.body;
@@ -32,6 +32,31 @@ const handlePostOrder = async (req, res) => {
 
   if (!hasError) {
     try {
+      const email = {
+        Destination: {
+          ToAddresses: ["b_vancea@yahoo.com"],
+        },
+        Message: {
+          Body: {
+            Text: {
+              Data: "O noua comanda a fost plasata !!!",
+            },
+          },
+          Subject: {
+            Data: "Comanda",
+          },
+        },
+        Source: "b_vancea@yahoo.com",
+      };
+
+      ses.sendEmail(email, (err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Email sent!!!");
+        }
+      });
+
       await Orders.create(order);
 
       res.sendStatus(200);
